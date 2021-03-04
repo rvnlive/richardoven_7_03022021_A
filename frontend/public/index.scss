@@ -1,0 +1,70 @@
+// Colours
+$primary: #6a89dfce;
+$info: rgb(216, 216, 216);
+$footer: rgb(185, 185, 185);
+
+html,
+body {
+    background-color: $info;
+}
+.bg-footer {
+    background-color: $footer;
+}
+
+// Styling every Text input fields
+#nav-search {
+    background-color: $primary;
+    transform: scale(1);
+    transition: all 500ms ease-in-out;
+    &:hover {
+        box-shadow: 0 3px 5px 5px rgba(77, 77, 77, 0.575) ;
+        transition: all 500ms ease-in-out;
+        border:1px solid grey;
+        background-color: $info;
+    }
+    &:focus {
+        border: 1px solid $primary;
+        box-shadow: 0 3px 10px 10px rgba(36, 36, 36, 0.575) ;
+        transition: all 200ms ease-in-out;
+        background-color: white;
+    }
+}
+#nav-search-bar {
+    transform: scale(1);
+    transition: all 500ms ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+        transition: all 500ms ease-in-out;
+    }
+    &:focus {
+        transform: scale(1.05);
+        transition: all 200ms ease-in-out;
+    }
+}
+
+// Dropdown animation
+.animated {
+    .dropdown-menu {
+        overflow: hidden;
+        display: block!important;
+        max-height: 0!important;
+        &:not(.show) {
+            padding: 0;
+            border: none;
+        }
+        &.show {
+            transition: max-height 500ms ease-in-out;
+            max-height: 500px!important; //this must have to be higher than the max height of the dropdown list
+        }
+    }
+}
+
+// Post Input
+.well textarea, textarea.form-control
+{
+   resize: none;
+}
+
+// Then import Bootstrap an BootstrapVue SCSS files (order is important)
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../node_modules/bootstrap-vue/src/index.scss';

@@ -3,7 +3,8 @@
     <b-container fluid>
       <b-nav
         tabs
-        class="bg-white rounded-top shadow-lg pt-2 w-75 ml-auto mr-auto pr-4 pl-4"
+        role="navigation"
+        class="bg-primary rounded-top shadow-lg pt-2 w-75 ml-auto mr-auto pr-4 pl-4"
         justified
       >
         <b-nav-item active>Home</b-nav-item>

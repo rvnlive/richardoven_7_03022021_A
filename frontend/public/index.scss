@@ -1,39 +1,21 @@
 // Colours
-$primary: #3e528ace;
-$info: rgb(231, 230, 230);
+$primary: #6d52cfce;
+$info: rgb(243, 243, 243);
 $footer: rgb(185, 185, 185);
 
+// GoogleFonts - Dosis
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700&display=swap');
+// Base background color
 html,
 body {
     background-color: $info;
-}
-.bg-footer {
-    background-color: $footer;
+    font-family: 'Dosis', sans-serif;
 }
 
-
-// Dropdown animation
-.animated {
-    .dropdown-menu {
-        overflow: hidden;
-        display: block!important;
-        max-height: 0!important;
-        transition: all 50ms ease-in-out;
-        &:not(.show) {
-            padding: 0;
-            border: none;
-            transition: max-height 50ms ease-out;
-            transition: padding 50ms ease-out;
-            max-height: 0px!important;
-        }
-        &.show {
-            transition: max-height 250ms ease-in-out;
-            max-height: 500px!important; //this must have to be higher than the max height of the dropdown list
-        }
-    }
+#app {
+    font-family: 'Dosis', sans-serif;
 }
 
-
-// Then import Bootstrap an BootstrapVue SCSS files (order is important)
+// Import Bootstrap and BootstrapVue SCSS files (order is important)
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../node_modules/bootstrap-vue/src/index.scss';

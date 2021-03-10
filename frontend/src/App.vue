@@ -1,26 +1,11 @@
 <template>
   <div id="app" class="bg-info">
-    <Navbar />
-    <PostInput />
-    <Feed />
-    <Footer />
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
-import Navbar from './components/Navbar.vue'
-import PostInput from './components/Post Input.vue'
-import Feed from './components/Feed.vue'
-import Footer from './components/Footer.vue'
-export default {
-  name: 'navbar',
-  components: {
-    Navbar,
-    PostInput,
-    Feed,
-    Footer
-  }
-}
+<script>  
+
 </script>
 
 <style lang="scss">

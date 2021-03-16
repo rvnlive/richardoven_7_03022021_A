@@ -2,7 +2,7 @@
   <div>
     <b-container class="d-flex flex-column flex-nowrap align-items-center mt-5">
       <img
-        src="../assets/edited/icon-left-font-monochrome-black.png"
+        src="../assets/Images/edited/icon-left-font-monochrome-white.png"
         width="80%"
         v-on:click="logIn()"
         alt="Groupomania logo"

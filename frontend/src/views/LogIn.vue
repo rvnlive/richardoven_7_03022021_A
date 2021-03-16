@@ -2,10 +2,10 @@
   <div>
     <b-container class="d-flex flex-column flex-nowrap align-items-center my-5">
       <img
-        src="../assets/edited/icon-left-font-monochrome-black.png"
+        src="../assets/Images/edited/icon-left-font-monochrome-white.png"
         width="80%"
         alt="Groupomania logo"
-        class="mb-5"
+        class="mb-5 pb-5"
       />
       <b-container
         class="mt-auto d-flex flex-column justify-content-center flex-md-row"
@@ -31,11 +31,12 @@
         </b-jumbotron>
         <!-- LogIn and Register side -->
         <b-jumbotron class="mw-50 shadow-lg bg-gradient-primary">
-          <b-form class="justify-content-center m-3">
+          <b-form @submit.prevent="login({ email, password })" class="justify-content-center m-3">
             <label class="sr-only" for="form-input-email">Email</label>
             <b-form-input
               id="form-input-email"
               type="email"
+              v-model="email"
               class="mb-3 shadow-lg"
               placeholder="janedoe@email.com"
               required
@@ -46,17 +47,14 @@
               <b-form-input
                 id="form-input-password"
                 type="password"
+                v-model="password"
                 placeholder="Password"
                 class="shadow-lg"
                 required
               ></b-form-input>
             </b-input-group>
 
-            <b-form-checkbox class="mb-5 text-light"
-              >Remember me</b-form-checkbox
-            >
-
-            <b-button variant="light" class="shadow-lg" v-on:click="logIn()"
+            <b-button variant="light" class="mt-3 shadow-lg" v-on:click="logIn()"
               >LogIn</b-button
             >
 
@@ -75,16 +73,20 @@
 export default {
   data() {
     return {
-      form: {
         email: "",
         password: "",
-      },
     };
   },
   methods: {
     logIn() {
+      // this.$store.dispatch("login", {
+      //   email: this.email,
+      //   password: this.password
+      // }).then(res => {
       this.$router.push("/Home");
     },
+    // )
+    // },
     register() {
       this.$router.push("/Register");
     },

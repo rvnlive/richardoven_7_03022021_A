@@ -21,14 +21,13 @@ const routes = [
     path: '/Home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/Profile',
+    name: 'Profile',
+    // Lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "Profile" */ '../views/Profile')
   }
-  // {
-  //   path: '/Profile',
-  //   name: 'Profile',
-  //   // Lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/Profile')
-  // }
-
 ]
 
 const router = new VueRouter({

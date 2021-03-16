@@ -1,20 +1,15 @@
 <template>
-  <div id="app" class="bg-info">
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
-
-<script>  
-
+<script>
 </script>
-
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Dosis", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
-
 </style>

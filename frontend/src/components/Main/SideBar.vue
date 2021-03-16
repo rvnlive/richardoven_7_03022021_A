@@ -8,12 +8,13 @@
     left
     shadow
   >
-    <b-container class="px-3 pb-4">
+    <b-container class="px-3 pb-5">
       <img
-        src="../../assets/edited/icon-left-font-monochrome-white.png"
+        :src=lightLogo
         width="65%"
         alt="Groupomania's brand logo"
         class="mb-lg-4"
+        v-on:click="home()"
       />
       <!-- User Profile Picture -->
       <div id="user-card">
@@ -25,15 +26,15 @@
           thumbnail
           fluid
           rounded="circle"
-          src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=798&q=80"
+          v-bind:src=user.profileImage
         />
-        <span class="badge bg-gradient-success" id="status-badge">online</span>
+        <span class="badge bg-gradient-success" id="status-badge"><b-icon icon="person-check-fill"></b-icon></span>
         <b-container class="mt-3 pb-5">
-            <p class="h3">{{ name }}</p>
+            <p class="h3">{{ user.fullName }}</p>
             <hr class="solid bg-light mt-0" width="75%">
-            <p class="h6">{{ shortBio }}</p>
-            <p class="h6 col-4 mt-2 float-left">Friends {{ numberOfFriends }}</p>
-            <p class="h6 col-4 mt-2 float-right">Groups {{ numberOfGroupsJoined }}</p>
+            <p class="h6">{{ user.shortBio }}</p>
+            <p class="h6 col-4 mt-2 float-left">Friends {{ user.numberOfFriends }}</p>
+            <p class="h6 col-4 mt-2 float-right">Groups {{ user.numberOfGroupsJoined }}</p>
         </b-container>
       </b-container>
       </div>
@@ -46,7 +47,7 @@
           rounded
         >
           <b-icon class="h5 align-middle" icon="person-circle"></b-icon>
-          <p class="d-inline">Profile</p>
+          <p class="d-inline">Settings</p>
         </b-button>
         <b-button
           variant="outline-light"
@@ -96,34 +97,33 @@
         </b-button>
       </b-container>
     </b-container>
-    <a class="h6 fixed-bottom text-dark" href="https://github.com/rvnlive/" target="_blank">Developed by Richard Oven</a>
+    <a class="h6 text-dark" href="https://github.com/rvnlive/" target="_blank">Developed by Richard Oven</a>
   </b-sidebar>
 </template>
 <script>
+import whiteLogo from '../../assets/Images/edited/icon-left-font-monochrome-white.png'
+import blackLogo from '../../assets/Images/edited/icon-left-font-monochrome-black.png'
+import { mapGetters } from "vuex";
 export default {
+  data () {
+    return {
+      lightLogo: whiteLogo,
+      darkLogo: blackLogo
+    }
+  },
+    computed: {
+    ...mapGetters({
+      user: "getUser",
+    }),
+  },
     methods: {
+        home(){
+          this.$router.push( '/Home' )
+        },
         userProfile(){
             this.$router.push( '/Profile' )
         }
     },
-    props: {
-        name: {
-            type: String,
-            default: 'John Doe'
-        },
-        shortBio: {
-            type: String,
-            default: 'This is me, noone else.'
-        },
-        numberOfFriends: {
-            type: Number,
-            default: 0
-        },
-        numberOfGroupsJoined: {
-            type: Number,
-            default: 0
-        }
-    }
 }
 </script>
 <style lang="scss">

@@ -1,0 +1,32 @@
+// Colours
+$primary: #6d52cfce;
+$info: rgb(243, 243, 243);
+$secondary: rgba(224, 224, 224, 0.233);
+
+// GoogleFonts - Dosis
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700&display=swap');
+@import './animation.scss';
+// Base background color
+html{
+    height: 100%;
+    scroll-behavior: smooth;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(180deg, rgb(109, 84, 199) 35%, rgba(165,152,212,1) 100%) no-repeat fixed;
+    font-family: 'Dosis', sans-serif;
+}
+
+.animate {
+    -webkit-animation: fadeIn 2s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeIn 2s; /* Firefox < 16 */
+    -ms-animation: fadeIn 2s; /* Internet Explorer */
+    -o-animation: fadeIn 2s; /* Opera < 12.1 */
+    animation: fadeIn 2s;
+  }
+  
+
+// Import Bootstrap and BootstrapVue SCSS files (order is important)
+@import '././node_modules/bootstrap/scss/bootstrap.scss';
+@import '././node_modules/bootstrap-vue/src/index.scss';

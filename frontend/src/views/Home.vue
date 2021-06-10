@@ -19,6 +19,11 @@
         <HomeFeed></HomeFeed>
       </b-container>
     </b-container>
+        <b-container fluid class="d-flex justify-content-center mb-5">
+      <b-container fluid class="d-flex justify-content-center m-0 p-0 animate">
+        <HomeTimeline />
+      </b-container>
+    </b-container>
   </div>
 </template>
 <script>
@@ -26,12 +31,14 @@ import SideBar from "../components/Main/SideBar";
 import UsersBar from "../components/HomePage/UserSideBar";
 import TopBar from "../components/Main/TopBar";
 import HomeFeed from "../components/HomePage/HomeFeed";
+import HomeTimeline from "../components/HomePage/HomeTimeline";
 export default {
   components: {
     SideBar,
     UsersBar,
     TopBar,
     HomeFeed,
+    HomeTimeline
   },
 };
 </script>

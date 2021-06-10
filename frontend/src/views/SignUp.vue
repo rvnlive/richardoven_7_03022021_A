@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-container class="d-flex flex-column flex-nowrap align-items-center mt-5">
+    <b-container class="d-flex flex-column flex-nowrap align-items-center">
       <img
         src="../assets/Images/edited/icon-left-font-monochrome-white.png"
         width="80%"
         @click="logIn"
         alt="Groupomania logo"
-        class="mb-5"
+        class="mb-md-5 pb-md-5 mt-4"
       />
       <b-container class="justify-content-center mb">
         <b-jumbotron

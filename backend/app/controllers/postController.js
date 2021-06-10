@@ -3,8 +3,6 @@
 const {
   errorMessage, successMessage, status
 } = require('../helpers/status')
-/* For validation and security purposes */
-const { isEmpty } = require('../helpers/validations')
 
 require('dotenv').config()
 
@@ -27,16 +25,16 @@ const Texts = models.texts
 
 exports.createUserPost = (req, res) => {
   const url = req.protocol + '://' + req.get('host')
-  const { userid, post, upload } = req.body
+  const userid = req.body.userid
+  const post = req.body.post
+  const imageAlt = req.body.imageAlt
+  const file = req.file
 
-  if (isEmpty(post.postText) && isEmpty(upload.file) && isEmpty(upload.imageAlt)) {
-    errorMessage.error = 'Add text or media to create a post'
-    return res.status(status.bad).send(errorMessage)
-  } else if (post.postText && (!upload.file && !upload.imageAlt)) {
+  if (post && (!file && !imageAlt)) {
     const postTextContent = {
       userid: userid,
       texts: [{
-        textcontent: post.postText
+        textcontent: post
       }]
     }
 
@@ -50,7 +48,8 @@ exports.createUserPost = (req, res) => {
         const textPost = result
         console.log(textPost)
         if (textPost) {
-          return res.json(textPost)
+          res.status(status.created).send(successMessage)
+          return res.json({ textPost })
         } else {
           errorMessage.error = 'Something went wrong!'
           return res.status(status.conflict).send(errorMessage)
@@ -58,12 +57,12 @@ exports.createUserPost = (req, res) => {
       })
       .catch(error => console.log('Operation was not successful ' + error)
       )
-  } else if (!post.postText && (upload.file && upload.imageAlt)) {
+  } else if (!post && (file && imageAlt)) {
     const postMediaContent = {
       userid: userid,
       uploads: [{
-        imagesrc: url + '/images/' + upload.file.name,
-        imagealt: upload.imageAlt
+        imagesrc: url + '/images/' + file.filename,
+        imagealt: imageAlt
       }]
     }
 
@@ -77,7 +76,8 @@ exports.createUserPost = (req, res) => {
         const mediaPost = result
         console.log(mediaPost)
         if (mediaPost) {
-          return res.json(mediaPost)
+          res.status(status.created).send(successMessage)
+          return res.json({ mediaPost })
         } else {
           errorMessage.error = 'Something went wrong!'
           return res.status(status.conflict).send(errorMessage)
@@ -85,15 +85,15 @@ exports.createUserPost = (req, res) => {
       })
       .catch(error => console.log('Operation was not successful ' + error)
       )
-  } else if (post.postText && (upload.file && upload.imageAlt)) {
+  } else if (post && (file && imageAlt)) {
     const postMultiContent = {
       userid: userid,
       texts: [{
-        textcontent: post.postText
+        textcontent: post
       }],
       uploads: [{
-        imagesrc: url + '/images/' + upload.file.name,
-        imagealt: upload.imageAlt
+        imagesrc: url + '/images/' + file.filename,
+        imagealt: imageAlt
       }]
     }
 
@@ -113,7 +113,8 @@ exports.createUserPost = (req, res) => {
         const multiPost = result
         console.log(multiPost)
         if (multiPost) {
-          return res.json(multiPost)
+          res.status(status.created).send(successMessage)
+          return res.json({ multiPost })
         } else {
           errorMessage.error = 'Something went wrong!'
           return res.status(status.conflict).send(errorMessage)

@@ -13,19 +13,23 @@ export default {
   },
 
   actions: {
-    userPost ({ commit, dispatch }, { userid, post, upload }) {
+    userPost ({ commit, dispatch }, { formData }) {
       const postsAPI = 'api/posts/'
       return new Promise((resolve, reject) => {
-        if (!post && !upload) {
+        const post = formData.get('post')
+        const upload = formData.get('upload')
+        const file = formData.get('image')
+        if (!post && !upload && !file) {
           throw Error('Please add something to post!')
         } else {
           const postRequestOptions = {
             method: 'POST',
             headers: {
-              ...authHeader(),
-              'Content-Type': 'application/json'
+              ...authHeader()
+              // 'Content-Type': 'multipart/form-data'
+              // 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userid, post, upload })
+            body: formData
           }
           window.fetch(baseUrl + postsAPI, postRequestOptions)
             .then(response => {
@@ -48,6 +52,6 @@ export default {
   },
 
   getters: {
-    getPostContent: state => state.postContent
+    loadPostContent: state => state.postContent
   }
 }

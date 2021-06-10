@@ -8,8 +8,10 @@ export default {
   },
 
   mutations: {
-    logInUser (state, user, token) {
+    logInUser (state, user) {
       state.userInformation = user
+    },
+    storeToken (state, token) {
       state.userToken = token
     },
     logOutUser (state) {
@@ -38,7 +40,8 @@ export default {
             if (user.token) {
               const token = user.token
               window.localStorage.setItem('userInformation', JSON.stringify(user))
-              commit('logInUser', user, token)
+              commit('logInUser', user)
+              commit('storeToken', token)
             }
             resolve(user)
           })
@@ -52,6 +55,7 @@ export default {
       window.localStorage.removeItem('userInformation')
       console.clear()
       commit('logOutUser')
+      commit('clearOutUsers')
     },
     userDelete ({ commit, dispatch }, userid) {
       const userDeleteRequestOptions = {
@@ -71,7 +75,7 @@ export default {
   },
 
   getters: {
-    isAuthenticated: state => !!state.userToken,
-    userDetails: state => state.userInformation
+    userDetails: state => state.userInformation,
+    userToken: state => state.userToken
   }
 }

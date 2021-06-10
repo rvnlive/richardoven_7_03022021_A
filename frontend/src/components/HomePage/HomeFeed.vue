@@ -2,80 +2,80 @@
   <div class="mt-3 mt-md-1 ml-auto mr-auto w-100">
     <!-- Post Input -->
     <b-container class="rounded shadow pb-1 w-75 mt-2" fluid>
-      <b-form>
-      <b-form-group>
-        <div class="mw-50">
-          <p
-            class="lead font-weight-normal text-light m-0 text-left"
-            v-if="userDetails"
-          >
-            Welcome {{ userDetails.firstname }}
-          </p>
-          <hr class="mt-1 bg-light w-75 float-left" />
-        </div>
-        <b-form-textarea
-          no-resize
-          placeholder="Share your toughts..."
-          v-model="post.postText"
-          id="postText"
-        ></b-form-textarea>
-        <b-container class="m-0 p-0 d-flex flex-column justify-content-center">
-          <div class="flex-row">
-            <b-button
-              v-b-toggle.collapse-1
-              variant="outline-light"
-              size="sm"
-              class="float-left mt-3"
-              ><b-icon icon="file-image"></b-icon
-            ></b-button>
-            <b-collapse id="collapse-1" class="float-left mt-2">
-              <b-card>
-                <b-form-file
-                  v-model="upload.file"
-                  size="sm"
-                  type="file"
-                  :state="Boolean(upload.file)"
-                  placeholder="Choose a file here..."
-                  drop-placeholder="Drop file here..."
-                ></b-form-file>
-                <b-form-input
-                  no-resize
-                  placeholder="What can we see on this image?"
-                  size="sm"
-                  v-model="upload.imageAlt"
-                  :state="imageAltState"
-                  required
-                  class="mt-3"
-                ></b-form-input>
-                <div class="mt-3">
-                  Selected file: {{ upload.file ? upload.file.name : "" }}
-                </div>
-                <b-button
-                  variant="primary"
-                  class="ml-auto mr-auto mt-2"
-                  @click="clearFiles()"
-                  >Clear</b-button
-                >
-              </b-card>
-            </b-collapse>
-          </div>
-          <div class="flex-row">
-            <b-button
-              variant="outline-light"
-              type="submit"
-              class="ml-auto mr-auto mt-2"
-              @click="submitPost()"
-              >Post</b-button
+      <b-form @submit="submitPost">
+        <b-form-group>
+          <div class="mw-50 mt-3">
+            <p
+              class="lead font-weight-normal text-light m-0 text-left"
+              v-if="userDetails"
             >
+              Welcome {{ userDetails.firstname }}
+            </p>
+            <hr class="mt-1 bg-light w-75 float-left" />
           </div>
-        </b-container>
-      </b-form-group>
+          <b-form-textarea
+            no-resize
+            placeholder="Share something with us..."
+            v-model="postText"
+            id="postText"
+          ></b-form-textarea>
+          <b-container
+            class="m-0 p-0 d-flex flex-column justify-content-center"
+          >
+            <div class="flex-row">
+              <b-button
+                v-b-toggle.collapse-1
+                variant="outline-light"
+                size="sm"
+                class="float-left mt-3"
+                ><b-icon icon="file-image"></b-icon
+              ></b-button>
+              <b-collapse id="collapse-1" class="float-left float-md-none ml-md-5 mw-75 mt-3">
+                <b-card class="mw-75">
+                  <b-form-file
+                    name="image"
+                    ref="fileInput"
+                    size="sm"
+                    type="file"
+                    drop-placeholder="Drop file here..."
+                  ></b-form-file>
+                  <b-form-input
+                    no-resize
+                    placeholder="What can we see on this image?"
+                    size="sm"
+                    v-model="imageAlt"
+                    class="mt-3"
+                  ></b-form-input>
+                  <b-button
+                    variant="primary"
+                    size="sm"
+                    class="ml-auto mr-auto mt-3 float-md-right mb-0"
+                    @click="clearFiles()"
+                    >Clear</b-button
+                  >
+                </b-card>
+              </b-collapse>
+            </div>
+            <div class="flex-row">
+              <b-button
+                variant="outline-light"
+                type="submit"
+                class="ml-auto mr-auto mt-3"
+                >Post</b-button
+              >
+            </div>
+          </b-container>
+        </b-form-group>
       </b-form>
     </b-container>
     <hr class="mt-4 bg-light w-50" />
     <!--===================================================-->
   </div>
 </template>
+
+// :state="imageAltState"
+// :state="Boolean(upload.file)"
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { required } from "vuelidate/lib/validators";
@@ -83,82 +83,71 @@ export default {
   data() {
     return {
       userid: this.$store.getters.userDetails.userid,
-      post: {
-        postText: "",
-      },
-      upload: {
-        file: null,
-        imageAlt: "",
-      },
+      postText: "",
+      imageAlt: "",
     };
-  },
-  validations: {
-    upload: {
-      imageAlt: {
-        required,
-      },
-    },
   },
   computed: {
     userDetails() {
       return this.$store.getters.userDetails;
     },
     imageAltState() {
-      return this.upload.imageAlt.length > 2 ? true : false;
+      return this.imageAlt.length > 2 ? true : false;
     },
   },
   methods: {
     ...mapActions(["userPost"]),
 
     clearFiles() {
-      this.$refs["file-input"].reset();
+      event.preventDefault();
+      this.$refs["fileInput"].reset();
     },
 
-    submitPost() {
-      const { userid, post, upload } = this;
-      if (upload.file !== null && !upload.imageAlt) {
+    submitPost(event) {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append("post", this.postText);
+      formData.append("userid", this.userid);
+      formData.append("imageAlt", this.imageAlt);
+      formData.append("image", this.$refs.fileInput.files[0]);
+
+      if (
+        !this.postText &&
+        !this.imageAlt &&
+        !this.$refs.fileInput.files.length
+      ) {
         return this.$swal({
           icon: "error",
           title: "OopsyDaisy...",
-          text: "Add alternative text for image and try again!",
+          text: "Please, add content and try again! ",
+          width: '280px'
         });
       } else {
         this.$store
-          .dispatch("userPost", { userid, post, upload })
+          .dispatch("userPost", { formData })
           .then(() => {
-            // this.resetModal()
+                  this.postText = "";
+      this.imageAlt = "";
+      this.$refs["fileInput"].reset();
             return this.$swal({
               icon: "success",
               title: "Nice one!",
               text: "Post has been successfully created!",
               showConfirmButton: false,
               timer: 1250,
+              width: '280px'
             });
           })
           .catch((error) => {
-            if (error.response.status === 400) {
-              return this.$swal({
-                icon: "error",
-                title: "OopsyDaisy...",
-                text: "Please, check your contents and try again!",
-              });
-            }
+            return this.$swal({
+              icon: "error",
+              title: "OopsyDaisy...",
+              text: "Please, check your contents and try again! " + error,
+              width: '280px'
+            });
           });
       }
-    },
-    onReset() {
-      event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    },
+    }
   },
 };
 </script>

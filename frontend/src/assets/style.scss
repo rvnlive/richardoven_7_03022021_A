@@ -3,9 +3,12 @@ $primary: #6d52cfce;
 $info: rgb(243, 243, 243);
 $secondary: rgba(224, 224, 224, 0.233);
 
+$extra-shadow: 0 0 10px 10px rgba(43, 43, 43, 0.336);
+
 // GoogleFonts - Dosis
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700&display=swap');
 @import './animation.scss';
+
 // Base background color
 html{
     height: 100%;
@@ -26,6 +29,14 @@ body {
     animation: fadeIn 2s;
   }
   
+.hover-effect {
+    transition: all 250ms ease-in-out;
+    &:hover {
+    box-shadow: $extra-shadow;
+    transform: scale(1.0025);
+    transition: all 250ms ease-in-out;
+}
+}
 
 // Import Bootstrap and BootstrapVue SCSS files (order is important)
 @import '././node_modules/bootstrap/scss/bootstrap.scss';

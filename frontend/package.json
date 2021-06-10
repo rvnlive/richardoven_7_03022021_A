@@ -1,6 +1,6 @@
 {
   "name": "groupomania",
-  "version": "0.1.0",
+  "version": "0.7.0",
   "description": "Groupomania Frontend",
   "private": true,
   "scripts": {
@@ -10,11 +10,18 @@
   },
   "author": "Richard Oven",
   "dependencies": {
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "nprogress": "^0.2.0",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.4",
     "vue-router": "^3.2.0",
+    "vue-sweetalert2": "^4.3.1",
+    "vuelidate": "^0.7.6",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

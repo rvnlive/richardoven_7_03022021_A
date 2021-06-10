@@ -5,7 +5,7 @@
         src="../assets/Images/edited/icon-left-font-monochrome-white.png"
         width="80%"
         alt="Groupomania logo"
-        class="mb-5 pb-5"
+        class="mb-4 pb-4 mb-md-5 pb-md-5"
       />
       <b-container
         class="mt-auto d-flex flex-column justify-content-center flex-md-row"
@@ -26,43 +26,78 @@
             <p class="h2">
               <b-icon icon="people-fill" variant="primary"></b-icon>
             </p>
-            <p>Build internal friendships</p>
+            <p>Build friendships</p>
           </b-container>
         </b-jumbotron>
         <!-- LogIn and Register side -->
         <b-jumbotron class="mw-50 shadow-lg bg-gradient-primary">
-          <b-form @submit.prevent="login({ email, password })" class="justify-content-center m-3">
+          <b-form class="justify-content-center m-3" @submit.prevent="logIn">
             <label class="sr-only" for="form-input-email">Email</label>
-            <b-form-input
-              id="form-input-email"
-              type="email"
-              v-model="email"
-              class="mb-3 shadow-lg"
-              placeholder="janedoe@email.com"
-              required
-            ></b-form-input>
+            <b-input-group-prepend class="align-items-center">
+              <b-icon
+                icon="envelope"
+                variant="info"
+                class="h1 pb-2 pr-3"
+              ></b-icon>
+              <b-form-input
+                id="form-input-email"
+                type="email"
+                size="sm"
+                v-model="email"
+                class="mb-3 shadow-lg"
+                placeholder="janedoe@email.com"
+                required
+                autofocus
+                prepend="person-circle"
+              ></b-form-input>
+            </b-input-group-prepend>
 
             <label class="sr-only" for="form-input-password">Password</label>
-            <b-input-group class="mb-4">
+            <b-input-group>
+              <b-input-group-prepend class="align-items-center">
+                <b-icon
+                  icon="lock"
+                  variant="info"
+                  class="h1 pb-2 pr-3"
+                ></b-icon>
+              </b-input-group-prepend>
               <b-form-input
                 id="form-input-password"
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
+                size="sm"
                 v-model="password"
                 placeholder="Password"
-                class="shadow-lg"
+                class="mb-3 shadow-lg rounded"
                 required
+                @click:append="showPassword = !showPassword"
               ></b-form-input>
+              <b-input-group-append
+                class="align-items-center"
+                @click="showPassword = !showPassword"
+              >
+                <b-icon
+                  :icon="showPassword ? 'eye' : 'eye-slash'"
+                  variant="info"
+                  class="h1 pb-2 pl-3"
+                ></b-icon>
+              </b-input-group-append>
             </b-input-group>
-
-            <b-button variant="light" class="mt-3 shadow-lg" v-on:click="logIn()"
+            <b-button
+              variant="light"
+              class="mt-3 mb-3 shadow-lg"
+              type="submit"
+              @click="logIn"
               >LogIn</b-button
             >
 
-            <hr class="mt-4 mb-4" />
-            
-            <b-button variant="light" class="shadow-lg" v-on:click="register()"
-              >SignUp</b-button
-            >
+            <hr class="mt-5" />
+
+            <p class="text-light mt-5">
+              Not registered yet? Not a problem.<br />
+              <a @click="signUp" class="btn btn-link p-0 m-0 text-light"
+                >Sign Up here to join our community.</a
+              >
+            </p>
           </b-form>
         </b-jumbotron>
       </b-container>
@@ -70,25 +105,75 @@
   </div>
 </template>
 <script>
+import { required } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-        email: "",
-        password: "",
+      email: "",
+      password: "",
+      showPassword: false,
+      submitted: false,
     };
   },
-  methods: {
-    logIn() {
-      // this.$store.dispatch("login", {
-      //   email: this.email,
-      //   password: this.password
-      // }).then(res => {
-      this.$router.push("/Home");
+  validations: {
+    form: {
+      email: {
+        required,
+      },
+      password: {
+        required,
+      },
     },
-    // )
-    // },
-    register() {
-      this.$router.push("/Register");
+  },
+  methods: {
+    ...mapActions(["userLogIn"]),
+
+    logIn() {
+      const { email, password } = this;
+      this.$store
+        .dispatch("userLogIn", { email, password })
+        .then(() => {
+          if (window.localStorage.getItem("userInformation")) {
+            this.$router.push("/").catch((err) => {
+              // Ignore the Vuex err regarding navigating to the page they are already on.
+              if (
+                err.name !== "NavigationDuplicated" &&
+                !err.message.includes(
+                  "Avoided redundant navigation to current location"
+                )
+              ) {
+                // But print any other errors to the console
+                console.log(err);
+              }
+            });
+          }
+          return this.$swal({
+            icon: "success",
+            title: "Welcome",
+            text: "Jump right in!",
+            showConfirmButton: false,
+            timer: 1250,
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            return this.$swal({
+              icon: "error",
+              title: "OopsyDaisy...",
+              text: "Please, check your password!",
+            });
+          } else if (error.response.status === 404) {
+            this.$swal({
+              icon: "error",
+              title: "OopsyDaisy...",
+              text: "User does not exist!",
+            });
+          }
+        });
+    },
+    signUp() {
+      this.$router.push("/signup");
     },
   },
 };

@@ -15,6 +15,11 @@ module.exports = function (sequelize, DataTypes) {
     userid: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    updatedat: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,

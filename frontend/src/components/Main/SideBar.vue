@@ -19,7 +19,6 @@
       <div id="user-card">
         <b-container
           class="mt-5 mb-5 mb-lg-5 pt-2 pb-2 border rounded-lg shadow-lg"
-          v-on:click="userProfile()"
         >
           <b-img
             :src="defaultProfile"
@@ -35,13 +34,22 @@
               {{ userDetails.firstname }} {{ userDetails.lastname }}
             </p>
           </b-container>
+          <b-button
+            variant="outline-light"
+            class="border-light shadow-lg mt-3"
+            rounded
+            size="sm"
+            @click="deleteProfile"
+          >
+            <p class="d-inline">Delete profile</p>
+          </b-button>
         </b-container>
       </div>
       <!-- Sidebar Menu -->
       <!-- Row 1 -->
       <b-container class="row mt-lg-5 pt-2 pt-lg-3 ml-auto mr-auto">
         <b-button
-          variant="outline-light"
+          variant="outline-secondary"
           class="col-4 pt-2 pb-2 border shadow-lg float-left"
           rounded
         >
@@ -49,7 +57,7 @@
           <p class="d-inline">Settings</p>
         </b-button>
         <b-button
-          variant="outline-light"
+          variant="outline-secondary"
           class="col-4 pt-2 pb-2 ml-auto border shadow-lg float-right"
           rounded
         >
@@ -60,7 +68,7 @@
       <!-- Row 2 -->
       <b-container class="row mt-4 ml-auto mr-auto">
         <b-button
-          variant="outline-light"
+          variant="outline-secondary"
           class="col-3 pt-2 pb-2 border shadow-lg float-left"
           rounded
         >
@@ -68,10 +76,9 @@
           <p class="d-inline">Photos</p>
         </b-button>
         <b-button
-          variant="outline-light"
+          variant="outline-secondary"
           class="col-3 pt-2 pb-2 ml-auto border shadow-lg float-right"
           rounded
-          @click="usersList()"
         >
           <b-icon class="h5 align-middle" icon="person-lines-fill"></b-icon>
           <p class="d-inline">Users</p>
@@ -84,6 +91,7 @@
   </b-sidebar>
 </template>
 <script>
+import {mapActions} from 'vuex'
 import whiteLogo from "../../assets/Images/edited/icon-left-font-monochrome-white.png";
 import blackLogo from "../../assets/Images/edited/icon-left-font-monochrome-black.png";
 import defaultProfile from "../../assets/Images/defaultProfileImage.webp";
@@ -102,13 +110,39 @@ export default {
     },
   },
   methods: {
-    userProfile() {
-      const userid = this.$store.getters.userDetails.userid;
-      this.$router.push({ path: "profile", query: { user: userid } });
+    // userProfile() {
+    //   const userid = this.$store.getters.userDetails.userid;
+    //   this.$router.push({ path: "profile", query: { user: userid } });
+    // },
+    ...mapActions(["userDelete"]),
+    deleteProfile() {
+      try {
+        this.$swal({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#6d52cfce",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.value) {
+            this.$swal({
+              icon: "success",
+              title: ":(",
+              text: "Hope to see you again soon!",
+              showConfirmButton: false,
+              timer: 1250,
+            });
+            const userid = this.$store.getters.userDetails.userid;
+            this.userDelete(userid);
+            this.$router.push("/login");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    usersList() {
-      this.$router.push('/users')
-    }
   },
 };
 </script>

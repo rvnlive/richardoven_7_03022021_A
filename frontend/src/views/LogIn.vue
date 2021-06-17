@@ -5,7 +5,7 @@
         src="../assets/Images/edited/icon-left-font-monochrome-white.png"
         width="80%"
         alt="Groupomania logo"
-        class="mb-md-5 pb-md-5 mt-4"
+        class="mb-3 mb-md-5 pb-md-5 mt-4"
       />
       <b-container
         class="mt-auto d-flex flex-column justify-content-center flex-md-row"
@@ -31,7 +31,7 @@
         </b-jumbotron>
         <!-- LogIn and Register side -->
         <b-jumbotron class="mw-50 shadow-lg bg-gradient-primary">
-          <b-form class="justify-content-center m-3" @submit.prevent="logIn">
+          <b-form class="justify-content-center m-3" @submit="logIn">
             <label class="sr-only" for="form-input-email">Email</label>
             <b-input-group-prepend class="align-items-center">
               <b-icon
@@ -82,11 +82,7 @@
                 ></b-icon>
               </b-input-group-append>
             </b-input-group>
-            <b-button
-              variant="light"
-              class="mt-3 mb-3 shadow-lg"
-              type="submit"
-              @click="logIn"
+            <b-button variant="light" class="mt-3 mb-3 shadow-lg" type="submit"
               >LogIn</b-button
             >
 
@@ -129,47 +125,74 @@ export default {
   methods: {
     ...mapActions(["userLogIn"]),
 
-    logIn() {
+    logIn(event) {
+      event.preventDefault();
       const { email, password } = this;
       this.$store
         .dispatch("userLogIn", { email, password })
-        .then(() => {
-          if (window.localStorage.getItem("userInformation")) {
-            this.$router.push("/").catch((err) => {
-              // Ignore the Vuex err regarding navigating to the page they are already on.
-              if (
-                err.name !== "NavigationDuplicated" &&
-                !err.message.includes(
-                  "Avoided redundant navigation to current location"
-                )
-              ) {
-                // But print any other errors to the console
-                console.log(err);
-              }
-            });
-          }
-          return this.$swal({
-            icon: "success",
-            title: "Welcome",
-            text: "Jump right in!",
-            showConfirmButton: false,
-            timer: 1250,
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
+        .then((res) => {
+          if (res.status === 'error') {
             return this.$swal({
               icon: "error",
-              title: "OopsyDaisy...",
-              text: "Please, check your password!",
+              title: "Nope!",
+              text: res.error,
+              showConfirmButton: false,
+              timer: 1250,
+              width: "280px",
             });
-          } else if (error.response.status === 404) {
-            this.$swal({
-              icon: "error",
-              title: "OopsyDaisy...",
-              text: "User does not exist!",
+          } else {
+            if (window.localStorage.getItem("userInformation")) {
+              this.$router.push("/").catch((err) => {
+                // Ignore the Vuex err regarding navigating to the page they are already on.
+                if (
+                  err.name !== "NavigationDuplicated" &&
+                  !err.message.includes(
+                    "Avoided redundant navigation to current location"
+                  )
+                ) {
+                  // But print any other errors to the console
+                  console.log(err);
+                }
+              });
+            }
+            return this.$swal({
+              icon: "success",
+              title: "Welcome",
+              text: "Jump right in!",
+              showConfirmButton: false,
+              timer: 1250,
             });
           }
+        })
+        // .then(() => {
+        //   if (window.localStorage.getItem("userInformation")) {
+        //     this.$router.push("/").catch((err) => {
+        //       // Ignore the Vuex err regarding navigating to the page they are already on.
+        //       if (
+        //         err.name !== "NavigationDuplicated" &&
+                // !err.message.includes(
+        //           "Avoided redundant navigation to current location"
+        //         )
+        //       ) {
+        //         // But print any other errors to the console
+        //         console.log(err);
+        //       }
+        //     });
+        //   }
+        //   this.$swal({
+        //     icon: "success",
+        //     title: "Welcome",
+        //     text: "Jump right in!",
+        //     showConfirmButton: false,
+        //     timer: 1250,
+        //   });
+        // })
+        .catch((error) => {
+          return this.$swal({
+            icon: "error",
+            title: "OopsyDaisy...",
+            text: "Something wrong! " + error,
+          });
         });
     },
     signUp() {

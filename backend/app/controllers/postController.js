@@ -4,8 +4,6 @@ const {
   errorMessage, successMessage, status
 } = require('../helpers/status')
 
-require('dotenv').config()
-
 /** Importing table-relations: Post made of Uploads and/or Text **/
 // const { createPostFrame } = require('./postFrameController')
 // const { addText } = require('./postTextController')
@@ -16,10 +14,13 @@ const initModels = require('../models/init-models').initModels
 const sequelize = require('../config/database.config')
 console.log(initModels)
 const models = initModels(sequelize)
+const Users = models.users
 const Posts = models.posts
 const Uploads = models.uploads
+const Likes = models.postlikes
+const Views = models.postview
+const Comments = models.comments
 const Texts = models.texts
-// const fs = require('fs')
 
 /// /////////////////////////////////////////// //
 
@@ -48,7 +49,6 @@ exports.createUserPost = (req, res) => {
         const textPost = result
         console.log(textPost)
         if (textPost) {
-          res.status(status.created).send(successMessage)
           return res.json({ textPost })
         } else {
           errorMessage.error = 'Something went wrong!'
@@ -76,7 +76,6 @@ exports.createUserPost = (req, res) => {
         const mediaPost = result
         console.log(mediaPost)
         if (mediaPost) {
-          res.status(status.created).send(successMessage)
           return res.json({ mediaPost })
         } else {
           errorMessage.error = 'Something went wrong!'
@@ -113,7 +112,6 @@ exports.createUserPost = (req, res) => {
         const multiPost = result
         console.log(multiPost)
         if (multiPost) {
-          res.status(status.created).send(successMessage)
           return res.json({ multiPost })
         } else {
           errorMessage.error = 'Something went wrong!'
@@ -127,98 +125,228 @@ exports.createUserPost = (req, res) => {
 
 exports.getAllUsersPosts = (req, res) => {
   Posts.findAll({
-    include: [Texts, Uploads]
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'email', 'createdat', 'updatedat']
+        },
+        order: [['createdat', 'ASC']]
+
+      },
+      {
+        model: Texts,
+        as: 'texts',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Uploads,
+        as: 'uploads',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Views,
+        as: 'postviews',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Likes,
+        as: 'postlikes',
+        order: [['createdat', 'ASC']]
+      }]
   })
     .then(posts => {
       if (!posts) {
         errorMessage.error = 'Add text or media to create a post'
         return res.status(status.bad).send(errorMessage)
       } else {
-        res.json(posts)
+        return res.json(posts)
       }
     })
     .catch(error => console.log('Operation was not successful ' + error))
 }
 
-// exports.getOnePost = async (req, res) => {
-//   try {
-//     const post = await Post.findOne({ where: { id: req.params.id } })
-//     res.status(200).json(post)
-//   } catch (err) {
-//     console.log(err)
-//     res.status(404).json({ error })
-//   }
-// }
+exports.getOnePost = (req, res) => {
+  const postid = req.params.id
+  Posts.findAll({
+    where: { postid: postid },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'email', 'createdat', 'updatedat']
+        },
+        order: [['createdat', 'ASC']]
 
-// exports.modifyPost = async (req, res) => {
-//   let post = await Post.findOne({ where: { id: req.params.id } })
+      },
+      {
+        model: Texts,
+        as: 'texts',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Uploads,
+        as: 'uploads',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Likes,
+        as: 'postlikes',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Views,
+        as: 'postviews',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Comments,
+        as: 'comments',
+        order: [['createdat', 'ASC']]
+      }
+    ]
+  })
+    .then(post => {
+      if (!post) {
+        errorMessage.error = 'Post does not exist'
+        return res.status(status.bad).send(errorMessage)
+      } else {
+        return res.json(post)
+      }
+    })
+    .catch(error => console.log('Operation was not successful ' + error))
+}
 
-//   if (req.file) {
-//     const filename = post.image.split('/images/')[1]
-//     fs.unlink('images/' + filename, (error) => {
-//       if (error) {
-//         console.log(error)
-//       } else {
-//         console.log('successfully deleted local image')
-//       }
-//     })
-//     const url = req.protocol + '://' + req.get('host')
-//     post = {
-//       title: req.body.title,
-//       description: req.body.description,
-//       image: url + '/images/' + req.file.filename,
-//       hasBeenRead: req.body.hasBeenRead
-//     }
-//   } else {
-//     post = {
-//       title: req.body.title,
-//       description: req.body.description,
-//       image: req.body.image,
-//       hasBeenRead: req.body.hasBeenRead
-//     }
-//   }
+exports.getAllPostLike = (req, res) => {
+  const postid = req.params.id
+  Likes.findAll({
+    where: { postid: postid },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'email', 'createdat', 'updatedat']
+        },
+        order: [['createdat', 'ASC']]
 
-//   try {
-//     const response = await Post.update(post, { where: { id: req.params.id } })
-//     res.status(201).json({ message: 'Post updated successfully!' })
-//   } catch (err) {
-//     console.log(err)
-//     return res.status(500).json({ message: err.message })
-//   }
-// }
+      }]
+  })
+    .then(likes => {
+      if (!likes) {
+        errorMessage.error = 'No likes to load'
+        return res.status(status.bad).send(errorMessage)
+      } else {
+        return res.json(likes)
+      }
+    })
+    .catch(error => console.log('Operation was not successful ' + error))
+}
 
-// exports.deletePost = async (req, res) => {
-//   try {
-//     const post = await Post.findOne({ where: { id: req.params.id } })
-//     const filename = post.image.split('/images/')[1]
-//     fs.unlink('images/' + filename, () => {
-//       Comment.destroy({ where: { postId: req.params.id } })
-//       Post.destroy({ where: { id: req.params.id } })
-//       res.status(200).json({ message: 'Post deleted successfully!' })
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     res.status(404).json({ error })
-//   }
-// }
+exports.givePostLike = (req, res) => {
+  const postid = req.body.id
+  const userid = req.body.userid
+  Likes.findOrCreate({
+    where: { userid: userid, postid: postid },
+    defaults: {
+      postid: postid,
+      userid: userid
+    }
+  })
+    .then((result) => {
+      const [like, created] = result
+      console.log(like)
+      if (created) {
+        return res.json({ likeCreated: created })
+      } else {
+        const errorMessage = 'Has been liked already!'
+        return res.status(status.conflict).send(errorMessage)
+      }
+    })
+    .catch(error => console.log('Operation was not successful ' + error)
+    )
+}
 
-// exports.viewPost = async (req, res) => {
-//   try {
-//     await Post.update(
-//       {
-//         hasBeenRead: sequelize.fn(
-//           'array_append',
-//           sequelize.col('hasBeenRead'),
-//           req.body.hasBeenRead
-//         )
-//       },
-//       { where: { id: req.params.id } }
-//     )
-//     const post = await Post.findOne({ where: { id: req.params.id } })
-//     console.log(post)
-//     res.status(201).json(post)
-//   } catch (err) {
-//     console.log(err)
-//     return res.status(500).json({ message: err.message })
-//   }
-// }
+exports.takePostLike = (req, res) => {
+  const postid = req.body.id
+  const userid = req.body.userid
+  Likes.destroy({
+    where: { userid: userid, postid: postid }
+  })
+    .then((result) => {
+      console.log(result)
+      const successMessage = 'Like has been taken successfully'
+      return res.status(status.success).send(successMessage)
+    })
+    .catch(error => console.log('Operation was not successful ' + error))
+}
+
+exports.viewPost = (req, res) => {
+  const postid = req.body.id
+  const userid = req.body.userid
+  Views.findOrCreate({
+    where: { userid: userid, postid: postid },
+    defaults: {
+      postid: postid,
+      userid: userid
+    }
+  })
+    .then((result) => {
+      const [view, created] = result
+      console.log(view)
+      if (created) {
+        return res.json({ viewCreated: created })
+      } else {
+        errorMessage.error = 'Has been viewed already!'
+        return res.json(errorMessage)
+      }
+    })
+    .catch(error => console.log('Operation was not successful ' + error)
+    )
+}
+
+exports.deletePost = (req, res) => {
+  const postid = req.params.id
+  Posts.destroy({
+    where: { postid: postid },
+    include: [
+      {
+        model: Texts,
+        as: 'texts',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Uploads,
+        as: 'uploads',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Likes,
+        as: 'postlikes',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Views,
+        as: 'postviews',
+        order: [['createdat', 'ASC']]
+      },
+      {
+        model: Comments,
+        as: 'comments',
+        order: [['createdat', 'ASC']]
+      }
+    ]
+  })
+    .then(post => {
+      if (!post) {
+        errorMessage.error = 'Post does not exist'
+        return res.status(status.bad).send(errorMessage)
+      } else {
+        successMessage.data.message = 'Post has been deleted successfully'
+        return res.status(status.success).send(successMessage)
+      }
+    })
+    .catch(error => console.log('Operation was not successful ' + error))
+}

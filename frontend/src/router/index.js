@@ -10,6 +10,8 @@ import signUp from '../views/SignUp'
 import NProgress from 'nprogress'
 import '../assets/nprogress.css'
 
+// Importing Vuex to retrieve our isLoggedIn status
+import store from '../store'
 Vue.use(VueRouter)
 
 // Creating routes
@@ -99,6 +101,28 @@ const router = new VueRouter({
         ]
       }
     },
+    {
+      path: '/post',
+      name: 'Post',
+      // Lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "Profile" */ '../views/Post'),
+      meta: {
+        title: 'Post',
+        meta: [
+          {
+            name: 'description',
+            content: 'Groupomania\'s user post page.'
+          },
+          {
+            property: 'og:description',
+            content: 'Groupomania\'s user post page.'
+          },
+          {
+            requiresAuth: true
+          }
+        ]
+      }
+    },
     // Otherwise redirect to home
     { path: '*', redirect: '/' }
   ]
@@ -108,9 +132,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/signup']
   const authRequired = !publicPages.includes(to.path)
-  const loggedIn = window.localStorage.getItem('userInformation')
+  const loggedIn = store.getters.isLoggedIn
 
-  if (authRequired && !loggedIn) {
+  if (authRequired && loggedIn !== true) {
     return next('/login')
   }
 

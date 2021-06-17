@@ -1,3 +1,4 @@
+// Automatically importing our modules within VUEX Store
 import camelCase from 'lodash/camelCase'
 
 const requireModule = require.context('.', false, /\.js$/) // Extract js files inside modules folder

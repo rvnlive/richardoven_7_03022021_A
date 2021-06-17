@@ -87,7 +87,7 @@ exports.logInUser = (req, res) => {
       where: { email }
     })
     .then((result) => {
-      console.log(result)
+      // console.log(result)
       if (result === null) {
         errorMessage.error = 'User with this email does not exist'
         return res.status(status.notfound).send(errorMessage)
@@ -104,6 +104,7 @@ exports.logInUser = (req, res) => {
     })
     .catch(error => console.log('Operation was not successful ' + error))
 }
+
 /**
  LIST ALL USERS
 **/
@@ -113,7 +114,6 @@ exports.loadAllUsers = (req, res) => {
       attributes: { exclude: ['password', 'email', 'updatedat'] }
     })
     .then(users => {
-      console.log(users)
       return res.json(users)
     })
     .catch(error => console.log('Operation was not successful ' + error))
@@ -122,7 +122,6 @@ exports.loadAllUsers = (req, res) => {
 /**
  DELETE A USER
 **/
-
 exports.deleteUser = (req, res) => {
   User
     .destroy({

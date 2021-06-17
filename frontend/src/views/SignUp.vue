@@ -6,7 +6,7 @@
         width="80%"
         @click="logIn"
         alt="Groupomania logo"
-        class="mb-md-5 pb-md-5 mt-4"
+        class="mb-3 mb-md-5 pb-md-5 mt-4"
       />
       <b-container class="justify-content-center mb">
         <b-jumbotron
@@ -71,7 +71,7 @@
                   :state="validateState('confirmedPassword')"
                   required
                 ></b-form-input>
-                <p class="" v-if="!$v.form.confirmedPassword.sameAsPassword">
+                <p class="text-light text-center p-1" v-if="!$v.form.confirmedPassword.sameAsPassword">
                   The passwords do not match.
                 </p>
               </b-input-group>

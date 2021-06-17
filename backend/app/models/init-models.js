@@ -23,7 +23,7 @@ function initModels (sequelize) {
   // Association for POSTVIEWS
   postview.belongsTo(users, { as: 'user', foreignKey: 'userid' })
   users.hasMany(postview, { as: 'postviews', foreignKey: 'userid' })
-  postview.belongsTo(posts, { as: 'post', foreignKey: 'postid' })
+  postview.belongsTo(posts, { as: 'postview', foreignKey: 'postid' })
   posts.hasMany(postview, { as: 'postviews', foreignKey: 'postid' })
 
   // Association for POSTLIKES

@@ -15,6 +15,11 @@ module.exports = function (sequelize, DataTypes) {
     postid: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    updatedat: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
@@ -31,4 +36,4 @@ module.exports = function (sequelize, DataTypes) {
       }
     ]
   })
-};
+}

@@ -1,26 +1,24 @@
-import { authHeader } from './helpers/authHeader'
+// import { authHeader } from './helpers/authHeader'
 const baseUrl = 'http://localhost:3000/'
 
 export default {
   state: {
     userInformation: [],
-    userToken: ''
+    userLoggedIn: []
   },
 
   mutations: {
-    logInUser (state, user) {
-      state.userInformation = user
-    },
-    storeToken (state, token) {
-      state.userToken = token
+    logInUser (state, response) {
+      state.userInformation = response
+      state.userLoggedIn = true
     },
     logOutUser (state) {
       state.userInformation = []
-      state.userToken = ''
+      state.userLoggedIn = []
     },
     deleteUser (state) {
       state.userInformation = []
-      state.userToken = ''
+      state.userLoggedIn = []
     }
   },
 
@@ -36,37 +34,33 @@ export default {
           .then(response => {
             return response.json()
           })
-          .then(user => {
-            if (user.token) {
-              const token = user.token
-              window.localStorage.setItem('userInformation', JSON.stringify(user))
-              commit('logInUser', user)
-              commit('storeToken', token)
+          .then(response => {
+            if (response.token) {
+              commit('logInUser', response)
+              commit('clearOutPostState')
+              commit('clearOutLikeState')
+              commit('clearOutCommentsState')
+              dispatch('loadAllPosts')
             }
-            resolve(user)
+            resolve(response)
           })
           .catch(error => {
             reject(error)
-            console.log(error)
           })
       })
     },
     userLogOut ({ commit }) {
-      window.localStorage.removeItem('userInformation')
-      console.clear()
       commit('logOutUser')
-      commit('clearOutUsers')
     },
-    userDelete ({ commit, dispatch }, userid) {
+    userDelete ({ commit, dispatch, getters }, userid) {
       const userDeleteRequestOptions = {
         method: 'DELETE',
-        headers: authHeader()
+        headers: getters.getHeader
       }
       window.fetch(baseUrl + `api/auth/${userid}`, userDeleteRequestOptions)
         .then(() => {
           commit('deleteUser')
-          window.localStorage.removeItem('userInformation')
-          dispatch('logOutUser')
+          dispatch('userLogOut')
         })
         .catch(error => {
           console.log(error)
@@ -76,6 +70,7 @@ export default {
 
   getters: {
     userDetails: state => state.userInformation,
-    userToken: state => state.userToken
+    isLoggedIn: state => state.userLoggedIn,
+    getHeader: state => ({ Authorization: 'Bearer ' + state.userInformation.token })
   }
 }

@@ -6,7 +6,7 @@
     <b-container
       class="border border-secondary rounded-lg shadow-lg mb-2 animate"
     >
-      <UserFeed />
+      <PostInput />
     </b-container>
   </div>
 </template>
@@ -15,13 +15,13 @@ import { mapGetters, mapActions } from "vuex";
 import SideBar from "../components/Main/SideBar";
 import TopBar from "../components/Main/TopBar";
 import ProfileHeader from "../components/Profile/Header";
-import UserFeed from "../components/Profile/UserFeed";
+import PostInput from "../components/HomePage/PostInput.vue";
 export default {
   components: {
     SideBar,
     TopBar,
     ProfileHeader,
-    UserFeed,
+    PostInput,
   },
   data() {
     return {

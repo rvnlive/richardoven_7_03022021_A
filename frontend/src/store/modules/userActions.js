@@ -1,4 +1,3 @@
-import { authHeader } from './helpers/authHeader'
 const baseUrl = 'http://localhost:3000/'
 
 export default {
@@ -16,10 +15,10 @@ export default {
   },
 
   actions: {
-    loadAllUser ({ commit }) {
+    loadAllUser ({ commit, getters }) {
       const getRequestOptions = {
         method: 'GET',
-        headers: authHeader()
+        headers: getters.getHeader
       }
       window.fetch(baseUrl + 'api/users', getRequestOptions)
         .then(result => result.json())

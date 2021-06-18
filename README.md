@@ -56,8 +56,11 @@ These tables are passing relevant information - such as **userId or postId** - t
 
 <br>
 
-2. ***`Back-end`*** (*bridge between database and Front-end*):  
-It has been built on top of **Node.JS** with **Express**.  
+2. ***`Back-end`***:
+
+    > ***Bridge between database and Front-end***
+
+    It has been built on top of **Node.JS** with **Express**.  
 
     - There are other packages being used, such as:
 
@@ -185,8 +188,11 @@ It has been built on top of **Node.JS** with **Express**.
 
 <br>
 
-3. ***`Front-end`*** (*where everything starts from: the **User Interface***):  
-It has been built on top of a combination of **VueJS** and **Bootstrap** - called **BootstrapVue**.  
+3. ***`Front-end`***:
+
+    > ***where everything starts from: the User Interface***
+
+    It has been built on top of a combination of **VueJS** and **Bootstrap** - called **BootstrapVue**.  
 
     - There are other packages being used, such as:
 

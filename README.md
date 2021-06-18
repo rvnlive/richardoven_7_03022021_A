@@ -78,7 +78,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
         
-        Example (*my `userModel`*):  
+        > Example (*my `userModel`*):  
 
         ```javascript
             // const Sequelize = require('sequelize')
@@ -129,7 +129,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
 
-        Example (*my `signUpUser` controller*):  
+        > Example (*my `signUpUser` controller*):  
 
         ```javascript
         /**  Creating a user entry in database **/
@@ -185,7 +185,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
 
-        Example (*my `signUp` route*):
+        > Example (*my `signUp` route*):
 
         ```javascript
         router.post('/signup', userController.signUpUser)
@@ -220,7 +220,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
 
-        Example (*my `index.html`*):  
+        > Example (*my `index.html`*):  
 
         ```html
         <!DOCTYPE html>
@@ -246,7 +246,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
         
-        Example (*my `LogIn.vue`*):  
+        > Example (*my `LogIn.vue`*):  
 
         ```html
         <template>
@@ -435,7 +435,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
         
-        Example (*my `LikeButton.vue`*):  
+        > Example (*my `LikeButton.vue`*):  
 
         ```html
         <template>
@@ -524,7 +524,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         
         <br>
 
-        Example (*my `userAuthentication.js`*):  
+        > Example (*my `userAuthentication.js`*):  
 
         ```javascript
         const baseUrl = 'http://localhost:3000/'

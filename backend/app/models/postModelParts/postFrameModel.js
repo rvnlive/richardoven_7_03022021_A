@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'posts',
-    schema: 'ocproject7',
+    schema: process.env.SCHEMA,
     timestamps: true,
     indexes: [
       {

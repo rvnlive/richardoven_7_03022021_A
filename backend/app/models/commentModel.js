@@ -36,7 +36,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'comments',
-    schema: 'ocproject7',
+    schema: process.env.SCHEMA,
     timestamps: true,
     indexes: [
       {

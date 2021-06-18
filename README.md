@@ -121,7 +121,7 @@ These tables are passing relevant information - such as **userId or postId** - t
                     ]
               })
             }
-            ```
+        ```
 
         * **Controllers**: Controllers are giving responses to each requests. Every request has been `routed` to a `controller`.  
         <br>

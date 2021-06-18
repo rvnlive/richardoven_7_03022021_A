@@ -75,8 +75,10 @@ These tables are passing relevant information - such as **userId or postId** - t
     - `Back-end` also contains:  
 
         * **Models**: A model represents a table in the database. The model tells `Sequelize` several things about the entity it represents, such as the *name of the table in the database and which columns it has (and their data types)*.  
+        
         <br>
-        > Example (*my `userModel`*):  
+        
+        Example (*my `userModel`*):  
 
         ```javascript
             // const Sequelize = require('sequelize')
@@ -124,8 +126,10 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **Controllers**: Controllers are giving responses to each requests. Every request has been `routed` to a `controller`.  
+        
         <br>
-        > Example (*my `signUpUser` controller*):  
+
+        Example (*my `signUpUser` controller*):  
 
         ```javascript
         /**  Creating a user entry in database **/
@@ -177,13 +181,15 @@ These tables are passing relevant information - such as **userId or postId** - t
         }
         ```
 
-        * **Routes**: Routes are directing the client requests. Every route must have a `method` *(defines the type of request (GET, POST, PUT, DELETE etc.))*, a `path` *('/signup')* and a `handler` *or with other word: a `controller`*.     
+        * **Routes**: Routes are directing the client requests. Every route must have a `method` *(defines the type of request (GET, POST, PUT, DELETE etc.))*, a `path` *('/signup')* and a `handler` *or with other word: a `controller`*.   
+        
         <br>
-        > Example (*my `signUp` route*):
 
-            ```javascript
-            router.post('/signup', userController.signUpUser)
-            ```
+        Example (*my `signUp` route*):
+
+        ```javascript
+        router.post('/signup', userController.signUpUser)
+        ```
 
 <br>
 
@@ -211,8 +217,10 @@ These tables are passing relevant information - such as **userId or postId** - t
     - `Front-end` also contains:  
 
         * **public/index.html**: a `HTML` file containing the base html for the browser - which includes the call for our **`VueJS app`** -> *(`app.vue`)*.  
+        
         <br>
-        > Example (*my `index.html`*):  
+
+        Example (*my `index.html`*):  
 
         ```html
         <!DOCTYPE html>
@@ -235,8 +243,10 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **src/views**: a collection of `.vue` files - each containing a different main page which going to call their relevant component(s).   
+        
         <br>
-        > Example (*my `LogIn.vue`*):  
+        
+        Example (*my `LogIn.vue`*):  
 
         ```html
         <template>
@@ -422,8 +432,10 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **src/components**: a collection of `.vue` files - each containing a different page module with their relevant function.     
+        
         <br>
-        > Example (*my `LikeButton.vue`*):  
+        
+        Example (*my `LikeButton.vue`*):  
 
         ```html
         <template>
@@ -509,8 +521,10 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **src/store**: `Vuex` centralizing requested data into a `vuex` **state** for the app components to use *(retrieve with `getters`, modify/update existing state with `mutations` and send/request data with `actions`)* at any point.   
+        
         <br>
-        > Example (*my `userAuthentication.js`*):  
+
+        Example (*my `userAuthentication.js`*):  
 
         ```javascript
         const baseUrl = 'http://localhost:3000/'
@@ -592,7 +606,9 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **src/route**: `Vue-router` deeply integrates with `VueJS`. It offers a variety of features, such as: *nested route/view mapping, modular/component based router configuration, route params/query etc.*   
+        
         <br>
+
         > Example (*part my `route/index.js`*):  
 
         ```javascript

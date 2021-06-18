@@ -75,9 +75,10 @@ These tables are passing relevant information - such as **userId or postId** - t
     - `Back-end` also contains:  
 
         * **Models**: A model represents a table in the database. The model tells `Sequelize` several things about the entity it represents, such as the *name of the table in the database and which columns it has (and their data types)*.  
-        Example (*my `userModel`*):  
+        <br>
+        > Example (*my `userModel`*):  
 
-            ```javascript
+        ```javascript
             // const Sequelize = require('sequelize')
             module.exports = function (sequelize, DataTypes) {
               return sequelize.define('users', {
@@ -123,12 +124,13 @@ These tables are passing relevant information - such as **userId or postId** - t
             ```
 
         * **Controllers**: Controllers are giving responses to each requests. Every request has been `routed` to a `controller`.  
-        Example (*my `signUpUser` controller*):  
+        <br>
+        > Example (*my `signUpUser` controller*):  
 
-            ```javascript
-            /**  Creating a user entry in database **/
-            exports.signUpUser = (req, res) => {
-              const { firstName, lastName, email, password } = req.body
+        ```javascript
+        /**  Creating a user entry in database **/
+        exports.signUpUser = (req, res) => {
+            const { firstName, lastName, email, password } = req.body
               // Validating our database entries
               // It is being validated first at FrontEnd, but you can never be sure.
               if (isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty          (password)) {
@@ -160,23 +162,24 @@ These tables are passing relevant information - such as **userId or postId** - t
                 })
                 // Find or Create results an array
                 // [object, created (<- it is a boolean: if created: true / existing:           false )]
-                .then((result) => {
-                  const [user, created] = result
-                  console.log(user)
-                  if (created) {
-                    return res.json({ userCreated: created })
-                  } else {
-                    errorMessage.error = 'Existing user!'
-                    return res.status(status.conflict).send(errorMessage)
-                  }
-                })
-                .catch(error => console.log('Operation was not successful ' + error)
-                )
-            }
-            ```
+               .then((result) => {
+                const [user, created] = result
+                console.log(user)
+                if (created) {
+                return res.json({ userCreated: created })
+                } else {
+                errorMessage.error = 'Existing user!'
+                return res.status(status.conflict).send(errorMessage)
+              }
+            })
+            .catch(error => console.log('Operation was not successful ' + error)
+            )
+        }
+        ```
 
-        * **Routes**: Routes are directing the client requests. Every route must have a `method` *(defines the type of request (GET, POST, PUT, DELETE etc.))*, a `path` *('/signup')* and a `handler` *or with other word: a `controller`*.  
-        Example (*my `signUp` route*):
+        * **Routes**: Routes are directing the client requests. Every route must have a `method` *(defines the type of request (GET, POST, PUT, DELETE etc.))*, a `path` *('/signup')* and a `handler` *or with other word: a `controller`*.     
+        <br>
+        > Example (*my `signUp` route*):
 
             ```javascript
             router.post('/signup', userController.signUpUser)
@@ -208,11 +211,12 @@ These tables are passing relevant information - such as **userId or postId** - t
     - `Front-end` also contains:  
 
         * **public/index.html**: a `HTML` file containing the base html for the browser - which includes the call for our **`VueJS app`** -> *(`app.vue`)*.  
-        Example (*my `index.html`*):  
+        <br>
+        > Example (*my `index.html`*):  
 
-            ```html
-            <!DOCTYPE html>
-            <html lang="en-en">
+        ```html
+        <!DOCTYPE html>
+        <html lang="en-en">
             <head>
                 <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -220,18 +224,19 @@ These tables are passing relevant information - such as **userId or postId** - t
                 <link rel="icon" href="<%= BASE_URL %>favicon.ico">
                 <title><%= htmlWebpackPlugin.options.title %></title>
             </head>
-              <body>
+            <body>
                 <noscript>
                     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
                 </noscript>
                 <div id="app"></div>
                 <!-- built files will be auto injected -->
-              </body>
-            </html>
-            ```
+            </body>
+        </html>
+        ```
 
-        * **src/views**: a collection of `.vue` files - each containing a different main page which going to call their relevant component(s).  
-        Example (*my `LogIn.vue`*):  
+        * **src/views**: a collection of `.vue` files - each containing a different main page which going to call their relevant component(s).   
+        <br>
+        > Example (*my `LogIn.vue`*):  
 
         ```html
         <template>
@@ -416,8 +421,9 @@ These tables are passing relevant information - such as **userId or postId** - t
         </script>
         ```
 
-        * **src/components**: a collection of `.vue` files - each containing a different page module with their relevant function.  
-        Example (*my `LikeButton.vue`*):  
+        * **src/components**: a collection of `.vue` files - each containing a different page module with their relevant function.     
+        <br>
+        > Example (*my `LikeButton.vue`*):  
 
         ```html
         <template>
@@ -502,8 +508,9 @@ These tables are passing relevant information - such as **userId or postId** - t
         </script>
         ```
 
-        * **src/store**: `Vuex` centralizing requested data into a `vuex` **state** for the app components to use *(retrieve with `getters`, modify/update existing state with `mutations` and send/request data with `actions`)* at any point.
-        Example (*my `userAuthentication.js`*):  
+        * **src/store**: `Vuex` centralizing requested data into a `vuex` **state** for the app components to use *(retrieve with `getters`, modify/update existing state with `mutations` and send/request data with `actions`)* at any point.   
+        <br>
+        > Example (*my `userAuthentication.js`*):  
 
         ```javascript
         const baseUrl = 'http://localhost:3000/'
@@ -585,7 +592,8 @@ These tables are passing relevant information - such as **userId or postId** - t
         ```
 
         * **src/route**: `Vue-router` deeply integrates with `VueJS`. It offers a variety of features, such as: *nested route/view mapping, modular/component based router configuration, route params/query etc.*   
-        Example (*part my `route/index.js`*):  
+        <br>
+        > Example (*part my `route/index.js`*):  
 
         ```javascript
         // Creating routes

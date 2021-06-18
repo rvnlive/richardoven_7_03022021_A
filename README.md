@@ -1,5 +1,7 @@
 # Groupomania - OpenClassrooms Project 7 - Web Developer course
 
+[Link to my project repository](https://github.com/rvnlive/richardoven_7_03022021_A)
+
 <br>
 
 >This page has been created by **`Richard Oven`** as a project for OpenClassrooms - Web Developer course.

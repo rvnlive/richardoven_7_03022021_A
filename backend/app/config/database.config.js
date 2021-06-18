@@ -1,3 +1,4 @@
+// Promise-based Object-relational mapping
 const { Sequelize } = require('sequelize')
 const sequelize = new Sequelize(
   process.env.DATABASE,

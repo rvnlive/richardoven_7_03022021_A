@@ -1,18 +1,21 @@
 /** Lets import our helpers (middleware) first **/
-/* For status feedback */
+/* For connection-status feedback */
 const {
   errorMessage, successMessage, status
 } = require('../helpers/status')
+
 /* For validation and security purposes */
 const {
-  hashPassword,
-  comparePassword,
-  isValidEmail,
-  validatePassword,
-  isEmpty,
-  generateUserToken
+  hashPassword, // securing (hashing) password before storing it
+  comparePassword, // comparing hashed password with user input at login
+  isValidEmail, // validating email input (no special characters)
+  validatePassword, // validating password (min. length '5', no 'space')
+  isEmpty, // looking for input value
+  generateUserToken // JWT token generation for future authorization purpose
 } = require('../helpers/validations')
 
+/** Importing table-model: User **/
+/** Sequelizing data **/
 const initModels = require('../models/init-models').initModels
 const sequelize = require('../config/database.config')
 console.log(initModels)
@@ -21,6 +24,7 @@ const User = models.users
 
 /// /////////////////////////////////////////// //
 
+/**  Creating a user entry in database **/
 exports.signUpUser = (req, res) => {
   const { firstName, lastName, email, password } = req.body
   // Validating our database entries
@@ -68,6 +72,13 @@ exports.signUpUser = (req, res) => {
     )
 }
 
+/** Loading a user entry from database **/
+/** Logic structured as
+ * Find User by email
+ * 1. if No User, then...
+ * 2. if User, then compare password
+ *    a, if Compare 'no match', then...
+ *    b, if Compare 'match', then generate token **/
 exports.logInUser = (req, res) => {
   const { email, password } = req.body
 
@@ -105,9 +116,7 @@ exports.logInUser = (req, res) => {
     .catch(error => console.log('Operation was not successful ' + error))
 }
 
-/**
- LIST ALL USERS
-**/
+/** Loading all user entries from database **/
 exports.loadAllUsers = (req, res) => {
   User
     .findAll({
@@ -119,9 +128,7 @@ exports.loadAllUsers = (req, res) => {
     .catch(error => console.log('Operation was not successful ' + error))
 }
 
-/**
- DELETE A USER
-**/
+/** Deleting user entry from database **/
 exports.deleteUser = (req, res) => {
   User
     .destroy({

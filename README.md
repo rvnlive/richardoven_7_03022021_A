@@ -139,7 +139,7 @@ These tables are passing relevant information - such as **userId or postId** - t
             const { firstName, lastName, email, password } = req.body
               // Validating our database entries
               // It is being validated first at FrontEnd, but you can never be sure.
-              if (isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty          (password)) {
+              if (isEmpty(firstName) || isEmpty(lastName) || isEmpty(email) || isEmpty(password)) {
                 errorMessage.error = 'Fields can NOT be empty'
                 console.log(errorMessage.error)
                 return res.status(status.bad).send(errorMessage)
@@ -167,7 +167,7 @@ These tables are passing relevant information - such as **userId or postId** - t
                   }
                 })
                 // Find or Create results an array
-                // [object, created (<- it is a boolean: if created: true / existing:           false )]
+                // [object, created (<- it is a boolean: if created: true / existing: false )]
                .then((result) => {
                 const [user, created] = result
                 // console.log(user)
@@ -396,7 +396,7 @@ These tables are passing relevant information - such as **userId or postId** - t
                   } else {
                     if (window.localStorage.getItem("userInformation")) {
                       this.$router.push("/").catch((err) => {
-                        // Ignore the Vuex err regarding navigating to the page they are        already on.
+                        // Ignore the Vuex err regarding navigating to the page they are already on.
                         if (
                           err.name !== "NavigationDuplicated" &&
                           !err.message.includes(
@@ -772,7 +772,9 @@ These tables are passing relevant information - such as **userId or postId** - t
 
         >**OR**  
          edit the file - called `.env-example` from `backend` folder - to your needs, then re-name it to `.env`.  
+         
          <br>
+
          Then on **successful connection** (*to the database and server*), you must see the following in your **back-end terminal tab**:  
 
         ```
@@ -780,6 +782,7 @@ These tables are passing relevant information - such as **userId or postId** - t
         Executing (default): SELECT 1+1 AS result
         Database connection Live!
         ```  
+        
         <br>
 
     - To run **front-end server**, go back to the **terminal tab** which has the     `'\frontend>'` path and type:  

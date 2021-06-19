@@ -36,6 +36,7 @@
                   <b-form-file
                     name="image"
                     ref="fileInput"
+                    accept="image/*"
                     size="sm"
                     type="file"
                     drop-placeholder="Drop file here..."

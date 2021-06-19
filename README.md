@@ -775,7 +775,7 @@ These tables are passing relevant information - such as **userId or postId** - t
          
          <br>
 
-         Then on **successful connection** (*to the database and server*), you must see the following in your **back-end terminal tab**:  
+        > Then on **successful connection** (*to the database and server*), you must see the following in your **back-end terminal tab**:  
 
         ```
         Listening on port 3000

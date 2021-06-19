@@ -10,7 +10,14 @@
       />
       <b-container class="justify-content-center mb">
         <b-jumbotron
-          class="col-md-8 shadow-lg bg-gradient-primary ml-md-auto mr-md-auto pb-4"
+          class="
+            col-md-8
+            shadow-lg
+            bg-gradient-primary
+            ml-md-auto
+            mr-md-auto
+            pb-4
+          "
         >
           <b-form @submit.prevent="signUp" enctype="multipart/form-data">
             <b-form class="justify-content-center mr-2 ml-2 mr-md-5 ml-md-5">
@@ -71,7 +78,10 @@
                   :state="validateState('confirmedPassword')"
                   required
                 ></b-form-input>
-                <p class="text-light text-center p-1" v-if="!$v.form.confirmedPassword.sameAsPassword">
+                <p
+                  class="text-light text-center p-1"
+                  v-if="!$v.form.confirmedPassword.sameAsPassword"
+                >
                   The passwords do not match.
                 </p>
               </b-input-group>
@@ -106,7 +116,7 @@ export default {
         email: "",
         password: "",
         confirmedPassword: "",
-      }
+      },
     };
   },
   validations: {
@@ -166,15 +176,14 @@ export default {
             .post("http://localhost:3000/api/auth/signup", this.form)
             .then((res) => {
               if (res.status === 200) {
-                this.$swal({
+                return this.$swal({
                   icon: "success",
                   title: "Registration successful!",
                   confirmButtonText: "LogIn",
                   confirmButtonColor: "#6d52cfce",
                   text: "Now you can login.",
                   showCloseButton: false,
-                })
-                .then(function (result) {
+                }).then(function (result) {
                   if (result.value) {
                     window.location = "/login";
                   }
@@ -182,20 +191,25 @@ export default {
               }
             })
             .catch((error) => {
-              if (error.status !== 200) {
-                console.log("Looks like we have a problem: " + error);
-                this.$swal({
-                  icon: "error",
-                  title: "Existing User...",
-                  text: "Please log in!",
+              if (error.response.status === 409) {
+                return this.$swal({
+                  icon: "info",
+                  title: "Existing User!",
                   confirmButtonText: "LogIn",
                   confirmButtonColor: "#6d52cfce",
-                })
-                .then(function (result) {
+                  text: "Please, log in!",
+                  showCloseButton: false,
+                }).then(function (result) {
                   if (result.value) {
                     window.location = "/login";
                   }
                 });
+              } else {
+                return this.$swal({
+                  icon: "error",
+                  title: "OopsyDaisy...",
+                  text: "Something went wrong: " + error,
+                })
               }
             });
         }

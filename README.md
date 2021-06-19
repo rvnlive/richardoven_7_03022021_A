@@ -170,10 +170,10 @@ These tables are passing relevant information - such as **userId or postId** - t
                 // [object, created (<- it is a boolean: if created: true / existing:           false )]
                .then((result) => {
                 const [user, created] = result
-                console.log(user)
+                // console.log(user)
                 if (created) {
                 return res.json({ userCreated: created })
-                } else {
+                } else if (!created){
                 errorMessage.error = 'Existing user!'
                 return res.status(status.conflict).send(errorMessage)
               }

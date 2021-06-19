@@ -66,12 +66,12 @@ These tables are passing relevant information - such as **userId or postId** - t
 
     - There are other packages being used, such as:
 
-        * **JWT** (*JSON Web Token for authorization purposes* - securing the connection with database & back-end)
-        * **Bcrypt** (*for password-hashing & comparison*)
-        * **CORS** (*it is/and for Cross-Origin resource sharing*)
-        * **DOTENV** (*for separated environment variables - .env file*)
-        * **Sequelize** (*it is an ORML - Object-Relational Mapping Library*: speeds up query writing time, synchronizing database, validates database model(s) etc.)
-        * **PG** (*for PostgreSQL features*)  
+        * **`JWT`** (*JSON Web Token for authorization purposes* - securing the connection with database & back-end)
+        * **`Bcrypt`** (*for password-hashing & comparison*)
+        * **`CORS`** (*it is/and for Cross-Origin resource sharing*)
+        * **`DOTENV`** (*for separated environment variables - .env file*)
+        * **`Sequelize`** (*it is an ORML - Object-Relational Mapping Library*: speeds up query writing time, synchronizing database, validates database model(s) etc.)
+        * **`PG`** (*for PostgreSQL features*)  
         <br>
 
     - `Back-end` also contains:  
@@ -207,12 +207,12 @@ These tables are passing relevant information - such as **userId or postId** - t
 
     - There are other packages being used, such as:
 
-        * **Axios** (*for sending `Asynchronous` HTTP request to REST (*Representational State Transfer - make use of existing protocols*) endpoints for performing CRUD operation(s)*)
-        * **Moment** (*for formatting Date and Time*)
-        * **NProgress** (*for loading bar*)
-        * **Vue-Router** (*helps to link browserURL/History with VueJS component rendering*)
-        * **Vue-SweetAlert2** (*for customizing modal alerts*)
-        * **Vuex** (*State Management pattern + library*: allowing us to store all the data received from any server in a centralized way, also ensuring that the `state` *(where the data being kept)* can **ONLY** be mutated *(changed/updated)* in a predictable way. - `!NOTE: on page reload, the data is being lost` - *page reload not means the use of integrated functions or modules, but 'hitting reload' or 'retyping page URL' etc.*)
+        * **`Axios`** (*for sending `Asynchronous` HTTP request to REST (*Representational State Transfer - make use of existing protocols*) endpoints for performing CRUD operation(s)*)
+        * **`Moment`** (*for formatting Date and Time*)
+        * **`NProgress`** (*for loading bar*)
+        * **`Vue-Router`** (*helps to link browserURL/History with VueJS component rendering*)
+        * **`Vue-SweetAlert2`** (*for customizing modal alerts*)
+        * **`Vuex`** (*State Management pattern + library*: allowing us to store all the data received from any server in a centralized way, also ensuring that the `state` *(where the data being kept)* can **ONLY** be mutated *(changed/updated)* in a predictable way. - `!NOTE: on page reload, the data is being lost` - *page reload not means the use of integrated functions or modules, but 'hitting reload' or 'retyping page URL' etc.*)
         
         <br>  
 

@@ -791,13 +791,13 @@ These tables are passing relevant information - such as **userId or postId** - t
 
         > Then on **successful connection** (*to the database and server*), you  must see the following in your **back-end terminal tab**:  
 
-            ```
-            DONE  Compiled successfully in 205ms                    13:30:06
+        ```
+        DONE  Compiled successfully in 205ms                    13:30:06
 
-            App running at:
-            - Local:   http://localhost:8081/
-            - Network: http://192.168.0.9:8081/
-            ```  
+        App running at:
+        - Local:   http://localhost:8081/
+        - Network: http://192.168.0.9:8081/
+        ```  
 
 <br>
 

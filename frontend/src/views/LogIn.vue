@@ -131,7 +131,7 @@ export default {
       this.$store
         .dispatch("userLogIn", { email, password })
         .then((res) => {
-          if (res.status === 'error') {
+          if (res.status === "error") {
             return this.$swal({
               icon: "error",
               title: "Nope!",
@@ -141,20 +141,18 @@ export default {
               width: "280px",
             });
           } else {
-            if (window.localStorage.getItem("userInformation")) {
-              this.$router.push("/").catch((err) => {
-                // Ignore the Vuex err regarding navigating to the page they are already on.
-                if (
-                  err.name !== "NavigationDuplicated" &&
-                  !err.message.includes(
-                    "Avoided redundant navigation to current location"
-                  )
-                ) {
-                  // But print any other errors to the console
-                  console.log(err);
-                }
-              });
-            }
+            this.$router.push("/").catch((err) => {
+              // Ignore the Vuex err regarding navigating to the page they are already on.
+              if (
+                err.name !== "NavigationDuplicated" &&
+                !err.message.includes(
+                  "Avoided redundant navigation to current location"
+                )
+              ) {
+                // But print any other errors to the console
+                console.log(err);
+              }
+            });
             return this.$swal({
               icon: "success",
               title: "Welcome",

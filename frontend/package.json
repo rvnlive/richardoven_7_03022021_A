@@ -1,6 +1,6 @@
 {
   "name": "groupomania",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Groupomania Frontend",
   "private": true,
   "scripts": {

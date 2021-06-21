@@ -48,6 +48,7 @@
                 placeholder="janedoe@email.com"
                 required
                 autofocus
+                autocomplete="email"
                 prepend="person-circle"
               ></b-form-input>
             </b-input-group-prepend>
@@ -68,6 +69,7 @@
                 v-model="password"
                 placeholder="Password"
                 class="mb-3 shadow-lg rounded"
+                autocomplete="password"
                 required
                 @click:append="showPassword = !showPassword"
               ></b-form-input>
